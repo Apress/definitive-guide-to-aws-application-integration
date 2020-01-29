@@ -1,0 +1,10 @@
+{
+  "name": "lambdas",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "aws-sdk": "^2.418.0",
+    "sqs-consumer": "^5.2.0",
+    "uuid": "^3.3.2"
+  }
+}

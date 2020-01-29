@@ -1,0 +1,8 @@
+{
+  "name": "swf-deciders",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "aws-sdk": "^2.418.0"
+  }
+}

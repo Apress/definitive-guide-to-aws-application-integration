@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AWS SDK for JavaScript - Browser Getting Started Application</title>
+</head>
+
+<body>
+<label for="customer_id"></label><input id="customer_id" type="text">
+<label for="timestamp"></label><input id="timestamp" type="text" value="2019-02-29 00:00:00">
+<label for="total_amount"></label><input id="total_amount" type="text" value="10.1">
+  <button class="btn default" onClick="insertRecord()">Insert</button>
+  <p id="result"></p>
+
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.410.0.min.js"></script>
+  <script type="text/javascript">
+      // Initialize the Amazon Cognito credentials provider
+      AWS.config.region = 'us-west-2';
+      // AWS.config.credentials = {
+      //     accessKeyId : "AKIAJHM6N3MGEYXBKEHA",
+      //     secretAccessKey : "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"
+      // };
+
+      // AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: 'us-west-2:eac50233-9edd-4082-a12c-16120e9b6902'});
+
+      // Function invoked by button click
+      function insertRecord() {
+
+          // Create the DynamoDB service object
+          var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+          var id = document.getElementById('customer_id').value;
+          var ts = document.getElementById('timestamp').value;
+          var amount = document.getElementById('total_amount').value;
+
+          var params = {
+              TableName: 'orders',
+              Item: {
+                  'user_id' : {S: id},
+                  'order_time' : {S: ts},
+                  'total_amount' : {N: amount}
+              }
+          };
+
+          document.getElementById('result').innerHTML = "Inserting the data";
+
+              // Call DynamoDB to add the item to the table
+          ddb.putItem(params, function(err, data) {
+              if (err) {
+                  console.log("Error", err);
+                  document.getElementById('result').innerHTML = "Unable to insert record: " + "\n" + JSON.stringify(err, undefined, 2);
+              } else {
+                  document.getElementById('result').innerHTML = "Successfully inserted record";
+              }
+          });
+      }
+  </script>
+</body>
+</html>
